@@ -1,30 +1,70 @@
 # 🛍️ E-Commerce REST API
 
-A robust, production-ready backend API for an E-commerce platform built with **FastAPI**. The system serves as a modular monolith handling users, inventory, orders, and payments.
+A robust, production-ready backend API for an E-commerce platform built with **FastAPI**.  
+Designed as a **modular monolith**, the system handles authentication, products, carts, orders, payments, and recommendations.
+
+---
 
 ## ✨ Features
 
-- **🔐 Authentication:** User & Admin roles, JWT Tokens, Secure Password Hashing.
-- **🛒️ Product Catalog:** Categories, Products, and SKUs (Variants) management.
-- **📦 Inventory System:** Row-level locking to prevent overselling + Real-time updates via WebSockets.
-- **🛒️ Shopping Cart:** Session-based carts stored in PostgreSQL (JSONB).
-- **💰 Order Processing:** Complete state machine (Created -> Paid -> Shipped).
-- **💳 Payments:** Stripe Integration (Payment Intents & Webhooks).
-- **🎫 Coupons:** Percentage and Fixed discount codes with usage tracking.
-- **📧 Recommendations:** Content-based recommendation engine.
-- **📧 Notifications:** Automated Order Confirmation emails (Gmail SMTP).
-- **🔒 CORS:** Secure Cross-Origin Resource Sharing configuration.
-- **📖 API Versioning:** Structured v1 endpoints.
+- 🔐 **Authentication & Authorization**
+  - User & Admin roles
+  - JWT-based authentication
+  - Secure password hashing
+
+- 🛒 **Product Catalog**
+  - Products, categories, and variants (SKUs)
+
+- 📦 **Inventory Management**
+  - Row-level locking to prevent overselling
+  - Real-time stock updates via WebSockets
+
+- 🛒 **Shopping Cart**
+  - Session-based cart stored in PostgreSQL (JSONB)
+
+- 💰 **Order Processing**
+  - Order lifecycle: `Created → Paid → Shipped`
+
+- 💳 **Payments**
+  - Stripe Payment Intents
+  - Webhook support for payment confirmation
+
+- 🎫 **Coupons & Discounts**
+  - Fixed and percentage-based coupons
+  - Usage tracking
+
+- 📧 **Email Notifications**
+  - Automated order confirmation emails (Gmail SMTP + Jinja2)
+
+- 📊 **Recommendations**
+  - Content-based product recommendation engine
+
+- 📖 **API Versioning**
+  - Clean `/api/v1` structure
+
+---
+
+## 📸 API Screenshots
+
+    ### 🔹 Swagger UI – Main View
+    ![Swagger Main](docs/swagger_list.png)
+
+    ### 🔹 Authentication Endpoints
+    ![Auth Endpoints](docs/swagger_list2.png)
 
 ## 🛠️ Tech Stack
 
-- **Backend:** FastAPI (Async)
-- **Database:** PostgreSQL
-- **ORM:** SQLAlchemy 2.0 (Async)
-- **Cache:** Not used (Cart is DB-backed)
-- **Payments:** Stripe
-- **Email:** Gmail (SMTP)
-- **Real-time:** WebSockets (Inventory updates)
+| Layer | Technology |
+|-----|-----------|
+| Backend | FastAPI (Async) |
+| Database | PostgreSQL |
+| ORM | SQLAlchemy 2.0 (Async) |
+| Payments | Stripe |
+| Email | Gmail SMTP |
+| Realtime | WebSockets |
+| Auth | JWT |
+
+---
 
 ## 📦 Project Structure
 
@@ -32,37 +72,16 @@ A robust, production-ready backend API for an E-commerce platform built with **F
 my_ecommerce_api/
 ├── app/
 │   ├── api/
-│   │   ├── v1/
-│   │   │   ├── endpoints/
-│   │   │   │   ├── auth.py
-│   │   │   │   ├── carts.py
-│   │   │   │   ├── coupons.py
-│   │   │   │   ├── orders.py
-│   │   │   │   ├── payments.py
-│   │   │   │   ├── products.py
-│   │   │   │   ├── recommendations.py
-│   │   │   │   ├── users.py
-│   │   │   │   └── websocket.py
-│   │   │   └── deps.py
-│   │   └── deps.py
+│   │   └── v1/
+│   │       └── endpoints/
 │   ├── core/
 │   │   ├── email.py
 │   │   └── security.py
-│   ├── database.py
-│   ├── main.py
 │   ├── models/
-│   │   ├── cart.py
-│   │   ├── coupon.py
-│   │   ├── order.py
-│   │   ├── product.py
-│   │   └── user.py
 │   ├── schemas/
-│   │   ├── coupon.py
-│   │   ├── order.py
-│   │   ├── product.py
-│   │   └── user.py
+│   ├── database.py
 │   ├── config.py
-│   └── redis_client.py (legacy, not currently used)
+│   └── main.py
 ├── templates/
 │   └── email/
 │       └── order_confirmation.html
@@ -70,37 +89,41 @@ my_ecommerce_api/
 ├── .env
 ├── .gitignore
 └── README.md
-```
+````
+
+---
 
 ## 🚀 Getting Started
 
-### 1. Prerequisites
-- Python 3.10+
-- PostgreSQL Server (Local or Cloud)
-- Stripe Account (For payment testing)
+### 1️⃣ Prerequisites
 
-### 2. Installation
+* Python **3.10+**
+* PostgreSQL (local or cloud)
+* Stripe account (test keys supported)
 
-1. **Clone the repository**
+---
+
+### 2️⃣ Installation
+
 ```bash
 git clone https://github.com/KilaBean/my-ecommerce-api.git
 cd my-ecommerce-api
 ```
 
-2. **Create Virtual Environment**
 ```bash
 python -m venv venv
-source venv/bin/activate  # On Windows: venv\Scripts\activate
+source venv/bin/activate  # Windows: venv\Scripts\activate
 ```
 
-3. **Install Dependencies**
 ```bash
 pip install -r requirements.txt
 ```
 
-### 3. Configuration
+---
 
-Create a `.env` file in the root directory and add your configuration variables:
+### 3️⃣ Environment Configuration
+
+Create a `.env` file:
 
 ```ini
 # Database
@@ -110,97 +133,62 @@ POSTGRES_PASSWORD=password
 POSTGRES_DB=ecommerce_db
 
 # Security
-SECRET_KEY=your_super_secret_key_here
+SECRET_KEY=super_secret_key
 
-# Stripe (Test Keys for development)
-STRIPE_API_KEY=sk_test_your_key_here
-STRIPE_WEBHOOK_SECRET=whsec_test_your_key_here
+# Stripe
+STRIPE_API_KEY=sk_test_xxx
+STRIPE_WEBHOOK_SECRET=whsec_xxx
 
-# Email (Gmail App Password)
-EMAIL_USER=yourname@gmail.com
-EMAIL_PASSWORD=your_gmail_app_password
-EMAIL_FROM=yourname@gmail.com
+# Email
+EMAIL_USER=example@gmail.com
+EMAIL_PASSWORD=gmail_app_password
+EMAIL_FROM=example@gmail.com
 ```
 
-### 4. Run the Application
+---
 
-Start the Uvicorn server:
+### 4️⃣ Run the Server
+
 ```bash
 uvicorn app.main:app --reload
 ```
 
-The API will be available at `http://127.0.0.1:8000`.
+Access:
 
-### 5. API Documentation
-
-Once the server is running, access the interactive Swagger UI:
-```text
-http://127.0.0.1:8000/docs
-```
-Or ReDoc:
-```text
-http://127.0.0.1:8000/redoc
-```
-
-## 📌 Endpoints Overview
-
-| Method | Endpoint | Description | Auth Required |
-| :--- | :--- | :--- | :--- |
-| `POST` | `/api/v1/auth/register` | Register new user | No |
-| `POST` | `/api/v1/auth/login` | Login to get JWT | No |
-| `GET` | `/api/v1/products/` | List all products | No |
-| `POST` | `/api/v1/products/` | Create product | Admin |
-| `GET` | `/api/v1/cart/` | Get cart items | No |
-| `POST` | `/api/v1/cart/add` | Add item to cart | No |
-| `POST` | `/api/v1/orders/checkout` | Create order & lock stock | User |
-| `POST` | `/api/v1/payments/create-intent` | Initiate Stripe payment | User |
-| `POST` | `/api/v1/recommendations/{id}` | Get related products | No |
-
-
-**📝 Note:** This project uses a modular monolith architecture. It is scalable, maintainable, and ready for high-traffic environments.
-```
+* Swagger UI → [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+* ReDoc → [http://127.0.0.1:8000/redoc](http://127.0.0.1:8000/redoc)
 
 ---
 
-### 2. Create `requirements.txt`
-Create a file named `requirements.txt` in your project folder and paste this:
+## 📌 API Endpoints Overview
 
-```text
-fastapi
-uvicorn[standard]
-sqlalchemy[asyncio]
-asyncpg
-passlib[bcrypt]
-python-jose[cryptography]
-python-multipart
-pydantic-settings
-pydantic[email]
-email-validator
-stripe
-python-docx
-aiosmtplib
-jinja2
-```
+| Method | Endpoint                         | Description      | Auth    |
+| ------ | -------------------------------- | ---------------- | ------- |
+| POST   | `/api/v1/auth/register`          | Register user    | ❌       |
+| POST   | `/api/v1/auth/login`             | Login (JWT)      | ❌       |
+| GET    | `/api/v1/products/`              | List products    | ❌       |
+| POST   | `/api/v1/products/`              | Create product   | ✅ Admin |
+| GET    | `/api/v1/cart/`                  | View cart        | ❌       |
+| POST   | `/api/v1/cart/add`               | Add to cart      | ❌       |
+| POST   | `/api/v1/orders/checkout`        | Create order     | ✅ User  |
+| POST   | `/api/v1/payments/create-intent` | Stripe payment   | ✅ User  |
+| GET    | `/api/v1/recommendations/{id}`   | Related products | ❌       |
 
 ---
 
-### 3. Create `.gitignore`
-Create a file named `.gitignore` in your project folder and paste this:
+## 🧠 Architecture Notes
 
-```text
-# Python
-venv/
-__pycache__/
-*.pyc
-*.pyo
+* Modular Monolith (easy to split into microservices later)
+* Async-first design
+* Transaction-safe inventory handling
+* Ready for production scaling
 
-# Environment Variables (Secrets)
-.env
+---
 
-# Database
-*.db
-*.sqlite3
+### 💼 Recruiter Impact
+This project already shows:
+- Real payments (Stripe)
+- Async SQLAlchemy
+- WebSockets
+- Real-world business logic
 
-# OS Specific
-.DS_Store
-Thumbs.db
