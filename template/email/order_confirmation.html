@@ -1,0 +1,40 @@
+<!-- templates/email/order_confirmation.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ddd; }
+        .header { background-color: #f4f4f4; color: white; padding: 10px; text-align: center; }
+        .item { border-bottom: 1px solid #eee; padding: 10px 0; }
+        .total { font-weight: bold; text-align: right; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Order Confirmed</h2>
+        </div>
+        <p>Hi {{ user_name }},</p>
+        <p>Thank you for your purchase! Your order (#{{ order.id } }) has been confirmed.</p>
+        
+        <h3>Items:</h3>
+        <div class="items">
+            {% for item in order.items %}
+            <div class="item">
+                <strong>Variant ID:</strong> {{ item.variant_id }} <br>
+                <strong>Quantity:</strong> {{ item.quantity }} <br>
+                <strong>Price:</strong> ${{ item.unit_price }}
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="total">
+            Total Amount: ${{ order.total_amount }}
+        </div>
+
+        <p><strong>Shipping To:</strong></p>
+        <p>{{ order.shipping_address }}</p>
+    </div>
+</body>
+</html>

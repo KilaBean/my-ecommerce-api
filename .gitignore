@@ -1,0 +1,19 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+*.pyo
+
+# Environment Variables (Secrets)
+.env
+
+# Database
+*.db
+*.sqlite3
+
+# OS Specific
+.DS_Store
+Thumbs.db
+
+# Word Documents (Generated Reports)
+*.docx
