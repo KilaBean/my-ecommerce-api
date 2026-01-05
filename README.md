@@ -46,11 +46,12 @@ Designed as a **modular monolith**, the system handles authentication, products,
 
 ## 📸 API Screenshots
 
-    ### 🔹 Swagger UI – Main View
-    ![Swagger Main](docs/swagger_list.png)
+### 🔹 Swagger UI – Main View
+![Swagger Main](docs/swagger_list.png)
 
-    ### 🔹 Authentication Endpoints
-    ![Auth Endpoints](docs/swagger_list2.png)
+### 🔹 Authentication Endpoints
+![Auth Endpoints](docs/swagger_list2.png)
+
 
 ## 🛠️ Tech Stack
 
